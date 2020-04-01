@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import sampleFishes from '../../sample-fishes';
+import React, { useEffect, useState } from 'react';
 import AddFishForm from '../AddFishForm/AddFishForm';
 import EditFishForm from '../EditFishForm/EditFishForm';
 import './Inventory.scss';
+import axios from 'axios';
 
 const Inventory = props => {
   const [fishes, setFishes] = useState({});
 
   const loadSampleFishes = () => {
-    setFishes(sampleFishes);
+    axios
+      .get('http://localhost:3000/fish')
+      .then(response => response.data)
+      .then(data => setFishes(data));
   };
 
   return (
@@ -25,7 +28,7 @@ const Inventory = props => {
         />
       ))}
       <AddFishForm addFish={props.addFish} />
-      <button onClick={loadSampleFishes}>Load sample fishes</button>
+      <button onClick={loadSampleFishes}>Load fishes from API</button>
     </div>
   );
 };
