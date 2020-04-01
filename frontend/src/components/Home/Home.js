@@ -12,7 +12,7 @@ const Home = () => {
 
   return (
     <div className='menu'>
-      <h1>Fishes</h1>
+      <h1>Fishes Inventory</h1>
       <ul>
         {Object.keys(fishes).map(key => (
           <Fish key={key} index={key} details={fishes[key]} />
