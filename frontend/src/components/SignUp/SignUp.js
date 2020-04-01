@@ -7,7 +7,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
 import { Formik } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as yup from 'yup';
@@ -32,6 +34,7 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp = () => {
   const classes = useStyles();
+  const [result, setResult] = useState({});
 
   return (
     <div>
@@ -48,6 +51,10 @@ const SignUp = () => {
         validationSchema={validationRules}
         onSubmit={(values, { setSubmitting }) => {
           setSubmitting(true);
+          console.log(values);
+
+          axios.post('http://localhost:3000/person/signup', values).then(response => setResult(response));
+
           setTimeout(() => {
             setSubmitting(false);
             toast.info('👍 Your registration has been sent', {
@@ -168,17 +175,7 @@ const SignUp = () => {
           </Container>
         )}
       </Formik>
-      <ToastContainer
-        position='bottom-right'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick={false}
-        rtl={false}
-        pauseOnVisibilityChange
-        draggable
-        pauseOnHover={false}
-      />
+
     </div>
   );
 };

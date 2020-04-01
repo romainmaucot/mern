@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import './AddFishForm.scss';
+import axios from 'axios';
 
 const AddFishForm = props => {
   const [fish, setFish] = useState({
@@ -19,14 +20,7 @@ const AddFishForm = props => {
 
   function createFish(event) {
     event.preventDefault();
-    props.addFish(fish);
-    setFish({
-      name: '',
-      price: 0,
-      status: 'available',
-      desc: '',
-      image: ''
-    });
+    axios.post('http://localhost:3000/fish', fish).then(response => response.data);
   }
 
   return (

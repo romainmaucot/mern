@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import './EditFishForm.scss';
+import axios from 'axios';
 
 const EditFishForm = props => {
   const [fish, setFish] = useState(
@@ -20,8 +21,13 @@ const EditFishForm = props => {
     props.updateFish(props.index, newFish);
   };
 
+  function deleteFish(fish) {
+    axios.delete('http://localhost:3000/fish/' + fish._id).then(response => console.log(response));
+  }
+
   return (
     <div className='fish-edit'>
+      <input type='hidden' name='id' value={fish._id} />
       <input type='text' name='name' onChange={handleChange('name')} value={fish.name} />
       <input type='text' name='price' onChange={handleChange('price')} value={fish.price} />
       <select type='text' name='status' onChange={handleChange('status')} value={fish.status}>
@@ -30,7 +36,7 @@ const EditFishForm = props => {
       </select>
       <textarea name='desc' onChange={handleChange('desc')} value={fish.desc} />
       <input type='text' name='image' onChange={handleChange('image')} value={fish.image} />
-      <button onClick={() => props.deleteFish(props.index)}>Remove fish</button>
+      <button onClick={() => deleteFish(fish)}>Remove fish</button>
     </div>
   );
 };
